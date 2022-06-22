@@ -15,5 +15,6 @@ namespace IBA_Alumni_.NetCore_.Data
 
 
         public DbSet<User> Users => Set<User>();
+        public DbSet<Event> Events => Set<Event>();
     }
 }
