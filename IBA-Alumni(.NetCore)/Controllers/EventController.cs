@@ -12,11 +12,33 @@ namespace IBA_Alumni_.NetCore_.Controllers
         {
             _context = context;
         }
+
+
+
         [HttpGet]
         public async Task<ActionResult<List<Event>>> GetEvents()
         {
+            //string sql = "";
+            //sql += "select top 2 * from Events ";
             return Ok(await _context.Events.ToListAsync());
         }
+
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Event>> GetEventsById(int id)
+        {
+            var dbEvent = await _context.Events.FindAsync(id);
+
+            if (dbEvent == null)
+            {
+                return NotFound("Event Not Found by the ID number");
+            }
+
+            return Ok(dbEvent);
+            
+        }
+
+
 
         [HttpPost]
         public async Task<ActionResult<List<Event>>> CreateEvents(Event events)
@@ -26,6 +48,7 @@ namespace IBA_Alumni_.NetCore_.Controllers
 
             return Ok(events);
         }
+
 
         [HttpPut]
         public async Task<ActionResult<List<Event>>> UpdateEvents(Event events)
@@ -47,6 +70,10 @@ namespace IBA_Alumni_.NetCore_.Controllers
             }
             return Ok(await _context.Events.ToListAsync());
         }
+
+
+
+
         [HttpDelete("{id}")]
         public async Task<ActionResult<List<Event>>> DeleteEvents(int id)
         {
@@ -58,7 +85,9 @@ namespace IBA_Alumni_.NetCore_.Controllers
             else
             {
                 _context.Events.Remove(dbEvent);
+                
                 await _context.SaveChangesAsync();
+
             }
             return Ok(await _context.Events.ToListAsync());
         }
